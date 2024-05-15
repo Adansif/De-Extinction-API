@@ -1,14 +1,16 @@
-package src.main.java.com.deextiction.entity;
+package com.deextinction.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
 public class User {
 
@@ -26,6 +28,14 @@ public class User {
 	private String email;
 		
 	public User() {
+		
+	}
+
+	public User(String name, String password, String email) {
+		super();
+		this.name = name;
+		this.password = password;
+		this.email = email;
 	}
 
 	public int getUserId() {
@@ -64,7 +74,4 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", name=" + name + ", password=" + password + ", email=" + email + "]";
 	}
-	
-	
-
 }
