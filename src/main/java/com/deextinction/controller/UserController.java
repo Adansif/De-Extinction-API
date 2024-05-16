@@ -32,14 +32,8 @@ public class UserController {
 				
 	}
 	
-	/*@GetMapping("/users/score")
-	public List<User> getAllUsersScore() {
-		return userRepository.findTop3ByOrderByScoreDesc();
-				
-	}*/
-	
 	@GetMapping("/users/{userName}")
-	public User getBank(@PathVariable String userName){
+	public User getUser(@PathVariable String userName){
 		return userRepository.findByName(userName);
 	}
 	
