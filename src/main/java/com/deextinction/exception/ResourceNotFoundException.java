@@ -1,4 +1,4 @@
-package src.main.java.com.deextiction.exception;
+package com.deextinction.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
