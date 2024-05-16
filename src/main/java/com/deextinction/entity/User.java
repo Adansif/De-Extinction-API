@@ -1,5 +1,6 @@
 package com.deextinction.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,16 +8,24 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private int userId;
+	
+	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Player player;
+	
+	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Admin admin;
 	
 	@Column
 	private String name;
@@ -46,6 +55,22 @@ public class User {
 		this.userId = userId;
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public Admin getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -72,6 +97,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", name=" + name + ", password=" + password + ", email=" + email + "]";
+		return "User [userId=" + userId + ", player=" + player + ", admin=" + admin + ", name=" + name + ", password="
+				+ password + ", email=" + email + "]";
 	}
 }
