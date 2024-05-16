@@ -1,5 +1,7 @@
 package com.deextinction.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,10 +23,12 @@ public class User {
 	@Column(name = "user_id")
 	private int userId;
 	
-	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
     private Player player;
 	
-	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
     private Admin admin;
 	
 	@Column
