@@ -7,14 +7,17 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deextinction.entity.User;
+import com.deextinction.exception.ResourceNotFoundException;
 import com.deextinction.repository.AdminRepository;
 import com.deextinction.repository.UserRepository;
 
@@ -63,4 +66,29 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	    }
 	}
+	
+	@PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Integer userId,
+         @RequestBody User userRequest) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+        .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+
+        user.setName(userRequest.getName());
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(userRequest.getPassword());
+        final User updatedUser = userRepository.save(user);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Integer userId)
+         throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+       .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+
+        userRepository.delete(user);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
 }
