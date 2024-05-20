@@ -3,6 +3,7 @@ package com.deextinction.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,9 +32,34 @@ public class PlayerController {
 	UserRepository userRepository;
 	
 	@GetMapping("/players/scores")
-	public List<Player> getAllUsersScore() {
-		return playerRepository.findTop3ByOrderByScoreDesc();		
-	}
+    public ResponseEntity<List<Map<String, Object>>> getAllUsersScore() {
+        List<Player> players = playerRepository.findByOrderByScoreDesc();
+        List<Map<String, Object>> response = players.stream()
+                .map(player -> {
+                    Map<String, Object> playerData = new HashMap<>();
+                    playerData.put("name", player.getUser().getName());
+                    playerData.put("score", player.getScore());
+                    return playerData;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
+    }
+	
+	@GetMapping("/players/topscores")
+    public ResponseEntity<List<Map<String, Object>>> getTop3UsersScore() {
+        List<Player> players = playerRepository.findTop3ByOrderByScoreDesc();
+        List<Map<String, Object>> response = players.stream()
+                .map(player -> {
+                    Map<String, Object> playerData = new HashMap<>();
+                    playerData.put("name", player.getUser().getName());
+                    playerData.put("score", player.getScore());
+                    return playerData;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
+    }
 	
 	@PostMapping("/players/login")
 	public ResponseEntity<Map<String, Object>> getUserDetails(@RequestBody User userRequest){
