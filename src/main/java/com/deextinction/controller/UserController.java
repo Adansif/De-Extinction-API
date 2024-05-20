@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.deextinction.entity.Admin;
 import com.deextinction.entity.User;
 import com.deextinction.exception.ResourceNotFoundException;
 import com.deextinction.repository.AdminRepository;
@@ -53,10 +54,35 @@ public class UserController {
 	}
 	
 	@PostMapping("/users")
-	public User createUser(@RequestBody User userRequest) {
-		return userRepository.save(userRequest);
-				
-	}
+    public ResponseEntity<Map<String, Object>> createUser(@RequestBody Map<String, Object> userRequest) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            User user = new User();
+            user.setName((String) userRequest.get("name"));
+            user.setEmail((String) userRequest.get("email"));
+            user.setPassword((String) userRequest.get("password"));
+
+            User savedUser = userRepository.save(user);
+            response.put("userId", savedUser.getUserId());
+            response.put("name", savedUser.getName());
+            response.put("email", savedUser.getEmail());
+
+            if (userRequest.containsKey("admin") && (boolean) userRequest.get("admin")) {
+                Admin admin = new Admin();
+                admin.setUser(savedUser);
+                adminRepository.save(admin);
+                response.put("admin", true);
+            } else {
+                response.put("admin", false);
+            }
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("error", "Error creating user");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 	
 	@GetMapping("/users/{userName}")
 	public User getUser(@PathVariable String userName){
