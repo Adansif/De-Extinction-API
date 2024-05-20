@@ -13,4 +13,6 @@ import com.deextinction.entity.Player;
 public interface PlayerRepository extends JpaRepository<Player, Integer>{
 	
 	List<Player> findTop3ByOrderByScoreDesc();
+    
+	List<Player> findByOrderByScoreDesc();
 }
