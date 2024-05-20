@@ -1,5 +1,6 @@
 package com.deextinction.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,21 @@ public class UserController {
 	AdminRepository adminRepository;
 	
 	@GetMapping("/users")
-	public List<User> getAllUsers() {
-		return userRepository.findAll();				
+	public List<Map<String, Object>> getAllUsers() {
+	    List<User> users = userRepository.findAll();
+	    List<Map<String, Object>> response = new ArrayList<>();
+	    
+	    for (User user : users) {
+	        Map<String, Object> userMap = new HashMap<>();
+	        userMap.put("userId", user.getUserId());
+	        userMap.put("name", user.getName());
+	        userMap.put("email", user.getEmail());
+	        userMap.put("admin", user.getAdmin() != null); 
+
+	        response.add(userMap);
+	    }
+	    
+	    return response;
 	}
 	
 	@PostMapping("/users")
