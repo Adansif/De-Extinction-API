@@ -5,10 +5,14 @@ import org.springframework.stereotype.Repository;
 
 import com.deextinction.entity.Admin;
 
-// Annotation to indicate that this interface is a Spring Data repository
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
-	
-	// Custom query method to find an Admin by the associated User's name
-	Admin findByUserName(String name);
+
+    /**
+     * Finds an Admin by the associated User's name.
+     * 
+     * @param name the name of the User associated with the Admin.
+     * @return the Admin associated with the given User's name.
+     */
+    Admin findByUserName(String name);
 }

@@ -8,51 +8,65 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-// Specifies that this class is an entity and is mapped to a database table
 @Entity
 @Table(name = "admins")
 public class Admin {
 
-	// Specifies the primary key of an entity
-	@Id
-	// Provides for the specification of generation strategies for the primary keys
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int adminId;
-	
-	// Specifies a single-valued association to another entity
-	@OneToOne
-	// Specifies the mapped column for the entity association
-	@JoinColumn(name = "user_id")
-	private User user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int adminId;
 
-	// Default constructor
-	public Admin() {
-		super();
-	}
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	// Getter method for adminId
-	public int getAdminId() {
-		return adminId;
-	}
+    public Admin() {
+        super();
+    }
 
-	// Setter method for adminId
-	public void setAdminId(int adminId) {
-		this.adminId = adminId;
-	}
+    /**
+     * Gets the admin ID.
+     * 
+     * @return the admin ID.
+     */
+    public int getAdminId() {
+        return adminId;
+    }
 
-	// Getter method for user
-	public User getUser() {
-		return user;
-	}
+    /**
+     * Sets the admin ID.
+     * 
+     * @param adminId the admin ID to set.
+     */
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
+    }
 
-	// Setter method for user
-	public void setUser(User user) {
-		this.user = user;
-	}
+    /**
+     * Gets the associated User.
+     * 
+     * @return the associated User.
+     */
+    public User getUser() {
+        return user;
+    }
 
-	// Overrides the toString method to provide a string representation of the Admin object
-	@Override
-	public String toString() {
-		return "Admin [adminId=" + adminId + ", user=" + user + "]";
-	}
+    /**
+     * Sets the associated User.
+     * 
+     * @param user the User to associate.
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    /**
+     * Provides a string representation of the Admin object.
+     * 
+     * @return a string representation of the Admin object.
+     */
+    @Override
+    public String toString() {
+        return "Admin [adminId=" + adminId + ", user=" + user + "]";
+    }
 }
