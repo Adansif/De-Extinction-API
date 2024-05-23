@@ -1,5 +1,5 @@
 package com.deextinction;
-
+//Importing necessary Spring Boot and project-specific classes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +16,7 @@ import com.deextinction.service.OneToOneService;
 
 @SpringBootApplication
 public class InitDatabase implements CommandLineRunner{
-	
+    // Autowiring the services and repositories needed
 	@Autowired
 	OneToOneService oneToOneService;
 	
@@ -25,11 +25,11 @@ public class InitDatabase implements CommandLineRunner{
 	
 	@Autowired
 	UserController userController;
-	
+    // Main method to run the Spring Boot application
 	public static void main(String[] args) {
 		SpringApplication.run(InitDatabase.class, args);
 	}
-	
+    // Method that runs after the application context is loaded and starts
 	@Override
 	public void run(String... args) throws Exception{
 		User user1 = new User("Adan", "1234", "adan@gmail.com");
@@ -39,18 +39,20 @@ public class InitDatabase implements CommandLineRunner{
 		User user5 = new User("Kevin", "3456", "gabri@gmail.com");
 
 
-		
+        // Saving users to the database
 		oneToOneService.saveUser(user1);
 		oneToOneService.saveUser(user2);
 		oneToOneService.saveUser(user3);
 		oneToOneService.saveUser(user4);
 		oneToOneService.saveUser(user5);
 		
+        // Creating player instances
 		Player player1 = new Player();
 		Player player2 = new Player();
 		Player player3 = new Player();
 		Player player4 = new Player();
 		
+        // Setting player properties and associating them with users
 		player1.setUser(user1);
 		player1.setScore(300);
 		player1.setPurchased(true);
@@ -67,15 +69,19 @@ public class InitDatabase implements CommandLineRunner{
 		player4.setScore(100);
 		player4.setPurchased(true);	
 		
+        // Saving players to the database
 		oneToOneService.savePlayer(player1);
 		oneToOneService.savePlayer(player2);
 		oneToOneService.savePlayer(player3);
 		oneToOneService.savePlayer(player4);
 		
+        // Creating an admin instance
 		Admin admin1 = new Admin();
 		
+        // Associating the admin with a user
 		admin1.setUser(user2);
 		
+        // Saving the admin to the database
 		oneToOneService.saveAdmin(admin1);
 	}
 }
