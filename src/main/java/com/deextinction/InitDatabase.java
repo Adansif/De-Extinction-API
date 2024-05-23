@@ -34,9 +34,9 @@ public class InitDatabase implements CommandLineRunner{
 	public void run(String... args) throws Exception{
 		User user1 = new User("Adan", "1234", "adan@gmail.com");
 		User user2 = new User("Gabri", "3456", "gabri@gmail.com");
-		User user3 = new User("Manuel", "3456", "gabri@gmail.com");
-		User user4 = new User("Maria", "3456", "gabri@gmail.com");
-		User user5 = new User("Kevin", "3456", "gabri@gmail.com");
+		User user3 = new User("Manuel", "3456", "manuel@gmail.com");
+		User user4 = new User("Maria", "3456", "maria@gmail.com");
+		User user5 = new User("Kevin", "3456", "kevin@gmail.com");
 
 
         // Saving users to the database

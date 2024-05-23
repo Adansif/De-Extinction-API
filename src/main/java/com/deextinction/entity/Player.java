@@ -9,80 +9,108 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-// Specifies that this class is an entity and is mapped to a database table named "players"
 @Entity
 @Table(name = "players")
 public class Player {
 
-	// Specifies the primary key of an entity
-	@Id
-	// Provides for the specification of generation strategies for the primary keys
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "player_id") // Specifies the mapped column for the primary key
-	private int playerId;
-	
-	// Specifies a single-valued association to another entity (User)
-	@OneToOne
-	// Specifies the mapped column for the entity association
-	@JoinColumn(name = "user_id")
-	private User user;
-	
-	// Specifies a column for storing whether the player has purchased something
-	@Column
-	private boolean isPurchased;
-	
-	// Specifies a column for storing the player's score
-	@Column
-	private int score;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "player_id")
+    private int playerId;
 
-	// Default constructor
-	public Player() {
-		super();
-	}
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	// Getter method for playerId
-	public int getPlayerId() {
-		return playerId;
-	}
+    @Column
+    private boolean isPurchased;
 
-	// Setter method for playerId
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
+    @Column
+    private int score;
 
-	// Getter method for user
-	public User getUser() {
-		return user;
-	}
+    public Player() {
+        super();
+    }
 
-	// Setter method for user
-	public void setUser(User user) {
-		this.user = user;
-	}
+    /**
+     * Gets the player ID.
+     * 
+     * @return the player ID.
+     */
+    public int getPlayerId() {
+        return playerId;
+    }
 
-	// Getter method for isPurchased
-	public boolean isPurchased() {
-		return isPurchased;
-	}
+    /**
+     * Sets the player ID.
+     * 
+     * @param playerId the player ID to set.
+     */
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
 
-	// Setter method for isPurchased
-	public void setPurchased(boolean isPurchased) {
-		this.isPurchased = isPurchased;
-	}
+    /**
+     * Gets the associated User.
+     * 
+     * @return the associated User.
+     */
+    public User getUser() {
+        return user;
+    }
 
-	// Getter method for score
-	public int getScore() {
-		return score;
-	}
+    /**
+     * Sets the associated User.
+     * 
+     * @param user the User to associate.
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	// Setter method for score
-	public void setScore(int score) {
-		this.score = score;
-	}
+    /**
+     * Checks if the player has purchased something.
+     * 
+     * @return true if the player has purchased, false otherwise.
+     */
+    public boolean isPurchased() {
+        return isPurchased;
+    }
 
-	// Overrides the toString method to provide a string representation of the Player object
-	@Override
-	public String toString() {
-		return "Player [playerId=" + playerId + ", user=" + user + ", isPurchased=" + isPurchased + ", score=" + score + "]";
-	}
+    /**
+     * Sets the purchased status of the player.
+     * 
+     * @param isPurchased the purchased status to set.
+     */
+    public void setPurchased(boolean isPurchased) {
+        this.isPurchased = isPurchased;
+    }
+
+    /**
+     * Gets the player's score.
+     * 
+     * @return the player's score.
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * Sets the player's score.
+     * 
+     * @param score the score to set.
+     */
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    /**
+     * Provides a string representation of the Player object.
+     * 
+     * @return a string representation of the Player object.
+     */
+    @Override
+    public String toString() {
+        return "Player [playerId=" + playerId + ", user=" + user + ", isPurchased=" + isPurchased + ", score=" + score + "]";
+    }
 }

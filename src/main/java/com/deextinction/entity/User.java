@@ -34,7 +34,7 @@ public class User {
 	private Admin admin;
 	
 	// Specifies a column for storing the user's name
-	@Column
+	@Column(unique=true)
 	private String name;
 	
 	// Specifies a column for storing the user's password
@@ -42,7 +42,7 @@ public class User {
 	private String password;
 	
 	// Specifies a column for storing the user's email
-	@Column
+	@Column(unique=true)
 	private String email;
 		
 	// Default constructor

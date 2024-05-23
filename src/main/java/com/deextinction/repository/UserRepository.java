@@ -6,11 +6,15 @@ import org.springframework.stereotype.Repository;
 
 import com.deextinction.entity.User;
 
-// Annotation to indicate that this interface is a Spring Data repository
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	
-	// Custom query method to find a User by their name using a JPQL query
-	@Query("select u from User u where u.name = ?1")
-	User findByName(String name);
+
+    /**
+     * Finds a User by their name using a JPQL query.
+     * 
+     * @param name the name of the User.
+     * @return the User with the specified name.
+     */
+    @Query("select u from User u where u.name = ?1")
+    User findByName(String name);
 }
