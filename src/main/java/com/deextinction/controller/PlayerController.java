@@ -91,22 +91,25 @@ public class PlayerController {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	    }
 	}
-	// Endpoint to update the score of a specific player
 	@PutMapping("/players/{name}/{score}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "name") String name,
-    		@PathVariable(value = "score") int score){
-        // Find the user by their name
-        User user = userRepository.findByName(name);
-        // Retrieve the player associated with the user
-        Player player = user.getPlayer();
-        // Update the player's score
-        player.setScore(score);
-        // Associate the updated player with the user
-        user.setPlayer(player);
-        // Save the updated user in the repository
-        final User updatedUser = userRepository.save(user);
-        // Return the response entity indicating success
-        return ResponseEntity.status(HttpStatus.OK).body(null);
-    }
+	public ResponseEntity<User> updateUser(@PathVariable(value = "name") String name,
+	                                       @PathVariable(value = "score") int score) {
+	    User user = userRepository.findByName(name);
+	    
+	    if (user != null) {
+	        Player player = user.getPlayer();
+	        
+	        if (player.getScore() < score) {
+	            player.setScore(score);
+	            user.setPlayer(player);
+	            final User updatedUser = userRepository.save(user);
+	            return ResponseEntity.status(HttpStatus.OK).body(null);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+	        }
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	    }
+	}
 	
 }
