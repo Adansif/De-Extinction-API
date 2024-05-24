@@ -1,4 +1,7 @@
 package com.deextinction;
+import java.util.ArrayList;
+import java.util.Random;
+
 //Importing necessary Spring Boot and project-specific classes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -32,56 +35,82 @@ public class InitDatabase implements CommandLineRunner{
     // Method that runs after the application context is loaded and starts
 	@Override
 	public void run(String... args) throws Exception{
-		User user1 = new User("Adan", "1234", "adan@gmail.com");
-		User user2 = new User("Gabri", "3456", "gabri@gmail.com");
-		User user3 = new User("Manuel", "3456", "manuel@gmail.com");
-		User user4 = new User("Maria", "3456", "maria@gmail.com");
-		User user5 = new User("Kevin", "3456", "kevin@gmail.com");
+		
+		String[] usernamesArray = {
+	            "ShadowHunter", "ViperStrike", "DragonSlayer", "NightStalker", "ThunderFury",
+	            "PhantomAssassin", "WarlockWizard", "CyberNinja", "FrostBite", "GhostRider", 
+	            "InfernoBlaze", "DarkAvenger", "TitanCrusher", "BladeMaster", "SteelShadow",
+	            "MysticSorcerer", "VenomViper", "RavenClaw", "BlitzKrieg", "SavageWolf" };
+		
+		String[] emails = {
+	            "ShadowHunter@gmail.com", "ViperStrike@gmail.com", "DragonSlayer@gmail.com", "NightStalker@gmail.com", "ThunderFury@gmail.com",
+	            "PhantomAssassin@gmail.com", "WarlockWizard@gmail.com", "CyberNinja@gmail.com", "FrostBite@gmail.com", "GhostRider@gmail.com",
+	            "InfernoBlaze@gmail.com", "DarkAvenger@gmail.com", "TitanCrusher@gmail.com", "BladeMaster@gmail.com", "SteelShadow@gmail.com",
+	            "MysticSorcerer@gmail.com", "VenomViper@gmail.com", "RavenClaw@gmail.com", "BlitzKrieg@gmail.com", "SavageWolf@gmail.com"};
+		
+		String[] passwords = {
+	            "B@ttleF!eld9", "M@trixR3l0ad", "L0ck&K3y!", "C@stl3V@ult", "Qw3rtY!123",
+	            "S@f3H@v3n", "R3dDr@g0n!", "Blu3Sky$89", "Z3r0H0ur#", "Ult!m@t3Pw",
+	            "St@rG@z3r7", "D!m3ns!0nX", "R3v3l@t!0n$", "S3cur3N3tw0rk", "L!ghtH0us3*",
+	            "M0unt@!nP@ss", "Bl@z!ngF!re", "C0sm!cW@v3", "3l3ctricSh0ck", "Ph0en!xR!s3"};
+		
+		ArrayList<User> usersArray = new ArrayList<>();
+		
+		for (int i = 0; i < usernamesArray.length; i++) {
+            User user = new User();
+            user.setName(usernamesArray[i]);
+            user.setEmail(emails[i]);
+            user.setPassword(passwords[i]);
+            usersArray.add(user);
+            oneToOneService.saveUser(user);
+        }
+		
+		User adansif = new User();
+		adansif.setName("Adansif");
+		adansif.setPassword("1234");
+		adansif.setEmail("adansif@gmail.com");
+		
+		User gabri = new User();
+		gabri.setName("Gabri");
+		gabri.setPassword("1234");
+		gabri.setEmail("gabri@gmail.com");
 
 
         // Saving users to the database
-		oneToOneService.saveUser(user1);
-		oneToOneService.saveUser(user2);
-		oneToOneService.saveUser(user3);
-		oneToOneService.saveUser(user4);
-		oneToOneService.saveUser(user5);
+		oneToOneService.saveUser(adansif);
+		oneToOneService.saveUser(gabri);
 		
-        // Creating player instances
-		Player player1 = new Player();
-		Player player2 = new Player();
-		Player player3 = new Player();
-		Player player4 = new Player();
-		
-        // Setting player properties and associating them with users
-		player1.setUser(user1);
-		player1.setScore(300);
-		player1.setPurchased(true);
-		
-		player2.setUser(user3);
-		player2.setScore(600);
-		player2.setPurchased(true);
-		
-		player3.setUser(user4);
-		player3.setScore(500);
-		player3.setPurchased(true);
-		
-		player4.setUser(user5);
-		player4.setScore(100);
-		player4.setPurchased(true);	
-		
-        // Saving players to the database
-		oneToOneService.savePlayer(player1);
-		oneToOneService.savePlayer(player2);
-		oneToOneService.savePlayer(player3);
-		oneToOneService.savePlayer(player4);
+        for (User user : usersArray) {
+			Player player = new Player();
+			player.setUser(user);
+			player.setScore(new Random().nextInt(0, 101));
+			player.setPurchased(true);
+			oneToOneService.savePlayer(player);
+		}
+        
+        Player adansifPlayer = new Player();
+        adansifPlayer.setUser(adansif);
+        adansifPlayer.setScore(10);
+        adansifPlayer.setPurchased(true);
+        
+        Player gabriPlayer = new Player();
+        gabriPlayer.setUser(gabri);
+        gabriPlayer.setScore(10);
+        gabriPlayer.setPurchased(true);
+        
+        oneToOneService.savePlayer(adansifPlayer);
+        oneToOneService.savePlayer(gabriPlayer);
 		
         // Creating an admin instance
-		Admin admin1 = new Admin();
+		Admin adansifAdmin = new Admin();
+		Admin gabriAdmin = new Admin();
 		
         // Associating the admin with a user
-		admin1.setUser(user2);
+		adansifAdmin.setUser(adansif);
+		gabriAdmin.setUser(gabri);
 		
         // Saving the admin to the database
-		oneToOneService.saveAdmin(admin1);
+		oneToOneService.saveAdmin(adansifAdmin);
+		oneToOneService.saveAdmin(gabriAdmin);
 	}
 }
