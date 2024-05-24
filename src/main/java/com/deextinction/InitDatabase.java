@@ -14,6 +14,7 @@ import com.deextinction.entity.Player;
 import com.deextinction.entity.User;
 import com.deextinction.repository.UserRepository;
 import com.deextinction.service.OneToOneService;
+import com.deextinction.utils.PasswordHasher;
 
 
 
@@ -60,19 +61,19 @@ public class InitDatabase implements CommandLineRunner{
             User user = new User();
             user.setName(usernamesArray[i]);
             user.setEmail(emails[i]);
-            user.setPassword(passwords[i]);
+            user.setPassword(PasswordHasher.hashPassword(passwords[i]));
             usersArray.add(user);
             oneToOneService.saveUser(user);
         }
 		
 		User adansif = new User();
 		adansif.setName("Adansif");
-		adansif.setPassword("1234");
+		adansif.setPassword(PasswordHasher.hashPassword("1234"));
 		adansif.setEmail("adansif@gmail.com");
 		
 		User gabri = new User();
 		gabri.setName("Gabri");
-		gabri.setPassword("1234");
+		gabri.setPassword(PasswordHasher.hashPassword("1234"));
 		gabri.setEmail("gabri@gmail.com");
 
 
